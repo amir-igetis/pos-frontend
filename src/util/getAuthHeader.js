@@ -6,6 +6,14 @@ export const getAuthToken = () => {
     return jwt;
 }
 
+// export const getAuthHeaders = () => {
+//     const jwt = getAuthToken();
+//     return {
+//         "Authorization": `Bearer ${jwt}`,
+//         "Content-Type": "application/json"
+//     }
+// }
+
 export const getAuthHeaders = () => {
     const jwt = localStorage.getItem("jwt");
     return jwt

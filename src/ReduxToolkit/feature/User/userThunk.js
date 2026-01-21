@@ -4,7 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const getUserProfile = createAsyncThunk("user/getProfile",
     async (token, { rejectWithValue }) => {
         try {
-            const res = await api.get("/api/users/profile", {
+            const res = await api.get("/api/user/profile", {
                 headers: { Authorization: `Bearer ${token}` }
             });
             console.log("Get user profile success ", res.data);
