@@ -78,10 +78,8 @@ export const logout = createAsyncThunk(
         try {
             localStorage.removeItem("jwt");
         } catch (error) {
-            console.log("error ", error)
-            return rejectWithValue(
-                "Failed to fetch user by id"
-            );
+            console.log("logout error ", error);
+            return rejectWithValue("Failed to log out successfully");
         }
     }
 );

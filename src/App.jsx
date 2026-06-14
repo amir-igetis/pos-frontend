@@ -7,6 +7,7 @@ import RefundPage from './pages/cashier/Refund/RefundPage'
 import CashierRoutes from './routes/CashierRoutes'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Login from './pages/Auth/Login'
+import StoreRoutes from './routes/StoreRoutes'
 
 // function App() {
 //   const [count, setCount] = useState(0)
@@ -27,12 +28,20 @@ import Login from './pages/Auth/Login'
 // export default App
 
 
+// App.jsx
+
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/cashier/*" element={<CashierRoutes />} />
+      
+      {/* FIX: Added /* to the store path */}
+      <Route path="/store/*" element={<StoreRoutes />} /> 
+      
+      {/* <Route path='/branch/*' element={<BranchRoutes />} />
+      <Route path='/super-admin/*' element={<AdminRoutes />} /> */}
     </Routes>
   );
 }

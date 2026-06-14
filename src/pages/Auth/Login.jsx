@@ -87,33 +87,48 @@ const Login = () => {
     const [showForgotPassword, setShowForgotPassword] = useState(false)
 
     const handleLogin = async (e) => {
-        e.preventDefault()
+        e.preventDefault() // Prevents page reload
         console.log('Logging in .....', formData)
 
         const resultAction = await dispatch(login(formData))
+
         if (login.fulfilled.match(resultAction)) {
-            toast("Login successfull");
-            const user = resultAction.payload
-            console.log("user ", user)
+            toast.success("Login successful");
+            const loginResponse = resultAction.payload; // Contains { jwt, message }
+            console.log("Login Payload:", loginResponse);
 
-            dispatch(getUserProfile(resultAction.payload.jwt))
+            // 1. Dispatch the profile call using the fresh JWT token
+            // Ensure your getUserProfile thunk unwraps or returns the API payload cleanly
+            const profileAction = await dispatch(getUserProfile(loginResponse.jwt));
 
-            const userRole = user.role;
-            if (userRole == "ROLE_BRANCH_CASHIER") {
-                navigate("/cashier")
-            } else if (userRole == "ROLE_STORE_MANAGER") {
-                navigate("/store")
-            } else if (userRole == "ROLE_BRANCH_MANAGER") {
-                navigate("/branch")
-            } else if (userRole == "SUPER_ADMIN") {
-                navigate("/super-admin")
+            if (getUserProfile.fulfilled.match(profileAction)) {
+                const userProfile = profileAction.payload;
+                console.log("Fetched User Profile:", userProfile);
+
+                // 2. Read the role directly from the user profile data payload
+                const userRole = userProfile.role;
+                console.log("User Role determined:", userRole);
+
+                if (userRole === "ROLE_BRANCH_CASHIER") {
+                    navigate("/cashier");
+                } else if (userRole === "ROLE_STORE_MANAGER" || userRole === "ROLE_STORE_ADMIN") {
+                    navigate("/store");
+                } else if (userRole === "ROLE_BRANCH_MANAGER") {
+                    navigate("/branch");
+                } else if (userRole === "SUPER_ADMIN") {
+                    navigate("/super-admin");
+                } else {
+                    toast.error("Unauthorized role or profile mismatch");
+                }
+            } else {
+                toast.error("Failed to load user profile configuration");
             }
-            console.log("user ", user);
+        } else {
+            toast.error(resultAction.payload || "Login failed");
         }
     }
 
     const handleInputChange = (e) => {
-        e.preventDefault()
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
@@ -150,6 +165,7 @@ const Login = () => {
                 {/* Card */}
                 {!showForgotPassword && (
                     <div className="bg-card rounded-2xl shadow-xl p-8">
+                        {/* Single onSubmit listener handling form submission */}
                         <form onSubmit={handleLogin} className="space-y-4">
 
                             {/* Email */}
@@ -162,6 +178,7 @@ const Login = () => {
                                     placeholder="Enter your email..."
                                     value={formData.email}
                                     onChange={handleInputChange}
+                                    required
                                 />
                             </div>
 
@@ -175,21 +192,21 @@ const Login = () => {
                                     placeholder="Enter your password..."
                                     value={formData.password}
                                     onChange={handleInputChange}
+                                    required
                                 />
                             </div>
 
                             <div className='flex items-center justify-between'>
                                 <div className='flex items-center gap-3'>
-                                    <Checkbox name="remember-me" type={'checkbox'}
+                                    <Checkbox id="remember-me" name="remember-me"
                                         className={"h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded-2xl"}
                                     />
-                                    <Label>Remember me</Label>
+                                    <Label htmlFor="remember-me">Remember me</Label>
                                 </div>
-                                <Button onClick={() => setShowForgotPassword(true)} variant={"ghost"}>Forgot Password</Button>
-
+                                <Button type="button" onClick={() => setShowForgotPassword(true)} variant={"ghost"}>Forgot Password</Button>
                             </div>
 
-                            {/* Button */}
+                            {/* REMOVED onClick={handleLogin} here to stop the double fire */}
                             <Button
                                 type="submit"
                                 className="w-full bg-primary text-primary-foreground rounded-lg py-2 font-semibold hover:opacity-90 transition"
@@ -201,13 +218,12 @@ const Login = () => {
                         <div className='mt-6 p-4 bg-muted rounded-lg'>
                             <p className='text-sm text-muted-foreground text-center'>
                                 <strong>
-                                    Demon Account :
+                                    Demo Account :
                                 </strong>
                                 <br />
                                 Email: demo@gmail.com <br />
                                 Password : 1234@demo
                             </p>
-
                         </div>
                     </div>
                 )}
@@ -215,26 +231,24 @@ const Login = () => {
                 {
                     showForgotPassword && <div className='bg-card rounded-2xl shadow-xl p-8'>
                         <form onSubmit={handleForgotPassword} className="space-y-4">
-
-                            {/* Email */}
                             <div>
-                                <Label htmlFor="email" className={"py-2"}>Email Address</Label>
+                                <Label htmlFor="forgot-email" className={"py-2"}>Email Address</Label>
                                 <Input
-                                    id="email"
+                                    id="forgot-email"
                                     name="forgot password email"
                                     type="email"
                                     placeholder="Enter your email..."
                                     value={forgotPasswordEmail}
                                     onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                                    required
                                 />
                             </div>
 
-                            {/* Button */}
                             <div className='flex items-center justify-between'>
                                 <Button
+                                    type="button"
                                     variant='outline'
                                     onClick={() => setShowForgotPassword(false)}
-                                    className="bg-primary text-primary-foreground rounded-lg py-2 font-semibold hover:opacity-90 transition"
                                 >
                                     Back to Login
                                 </Button>
