@@ -2,10 +2,10 @@ import api from "@/util/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getUserProfile = createAsyncThunk("user/getProfile",
-    async (token, { rejectWithValue }) => {
+    async (jwt, { rejectWithValue }) => {
         try {
             const res = await api.get("/api/user/profile", {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${jwt}` }
             });
             console.log("Get user profile success ", res.data);
             return res.data;
@@ -20,10 +20,10 @@ export const getUserProfile = createAsyncThunk("user/getProfile",
 
 export const getAllCustomer = createAsyncThunk(
     "user/getCustomers",
-    async (token, { rejectWithValue }) => {
+    async (jwt, { rejectWithValue }) => {
         try {
             const res = await api.get("/api/users/customer", {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${jwt}` }
             });
             console.log("Get customers success ", res.data);
             return res.data;
@@ -38,10 +38,10 @@ export const getAllCustomer = createAsyncThunk(
 
 export const getAllCashier = createAsyncThunk(
     "user/getCashiers",
-    async (token, { rejectWithValue }) => {
+    async (jwt, { rejectWithValue }) => {
         try {
             const res = await api.get("/api/users/cashier", {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${jwt}` }
             });
             console.log("Get cashier success ", res.data);
             return res.data;

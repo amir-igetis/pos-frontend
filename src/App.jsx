@@ -8,6 +8,9 @@ import CashierRoutes from './routes/CashierRoutes'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Login from './pages/Auth/Login'
 import StoreRoutes from './routes/StoreRoutes'
+import { getUserProfile } from './ReduxToolkit/feature/User/userThunk'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 // function App() {
 //   const [count, setCount] = useState(0)
@@ -31,15 +34,25 @@ import StoreRoutes from './routes/StoreRoutes'
 // App.jsx
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // 1. Grab the token
+    const token = localStorage.getItem('jwt');
+
+    // 2. Only dispatch if the token actually exists
+    if (token && token !== "null" && token !== "undefined") {
+      dispatch(getUserProfile(token));
+    }
+  }, [dispatch]);
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/cashier/*" element={<CashierRoutes />} />
-      
+
       {/* FIX: Added /* to the store path */}
-      <Route path="/store/*" element={<StoreRoutes />} /> 
-      
+      <Route path="/store/*" element={<StoreRoutes />} />
+
       {/* <Route path='/branch/*' element={<BranchRoutes />} />
       <Route path='/super-admin/*' element={<AdminRoutes />} /> */}
     </Routes>

@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import Sidebar from './Sidebar/Sidebar';
 import { Clock, ReceiptIcon, RotateCcw, ShoppingBag, ShoppingCart } from 'lucide-react';
 import { Outlet } from 'react-router-dom';
-import POSHeader from './Header/POSHeader';
 import { SidebarProvider } from '@/context/SidebarProvider';
 import { useSidebar } from '@/context/hook/useSidebar';
+import POSHeader from './Header/POSHeader';
 
 const navItems = [
   {
@@ -59,8 +59,10 @@ const CashierDashboardLayout = () => {
   return (
     <SidebarProvider>
       <LayoutContent />
+
     </SidebarProvider>
   )
 }
 
 export default CashierDashboardLayout
+
