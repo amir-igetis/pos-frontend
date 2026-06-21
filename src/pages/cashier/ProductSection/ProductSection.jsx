@@ -26,7 +26,7 @@ export const ProductSection = () => {
         // add logic to filter product based on serach
     };
 
-    console.log("products", products);
+    console.log("products", products, products.length);
     return (
         <div className='w-2/5 flex flex-col bg-card border-r'>
             <div className='p-4 border-b bg-muted'>

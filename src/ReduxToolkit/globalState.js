@@ -10,6 +10,7 @@ import categoryReducer from "./feature/Category/categorySlice.js"
 import employeeReducer from "./feature/Employee/employeeSlice.js";
 import storeReducer from "./feature/Store/storeSlice.js"
 import productReducer from "./feature/Product/productSlice.js";
+import cartReducer from "./feature/Cart/cartSlice.js"
 
 const globalState = configureStore({
     reducer: {
@@ -24,7 +25,12 @@ const globalState = configureStore({
         employee: employeeReducer,
         store: storeReducer,
         product: productReducer,
-    }
+        // inventory : inventoryReducer,
+        // branchAnalytics: branchAnalyticsReducer,
+        // storeAnalytics : storeAnalyticsReducer,
+        // subscriptionPlan : subscriptionPlanReducer,
+        cart: cartReducer,
+    },
 });
 
 export default globalState

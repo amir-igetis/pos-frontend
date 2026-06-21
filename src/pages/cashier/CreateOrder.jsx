@@ -11,6 +11,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
+import POSHeader from "./Header/POSHeader";
+import { ProductSection } from "./ProductSection/ProductSection";
+import { CartesianGrid } from "recharts";
 
 const PRODUCTS = [
     { id: 1, name: "Product Name", sku: "SKU12345", price: 899, category: "men_shirt", img: "https://placehold.co/150x200" },
@@ -192,3 +195,20 @@ function ShoppingCartIcon(props) {
 }
 
 export default CreateOrder;
+
+
+// check the create order stuff and make sure it is working properly. The code seems to be a React component for creating an order in a point-of-sale (POS) application. It includes sections for product selection, cart management, and customer information. The component uses various UI elements like buttons, inputs, cards, badges, and scroll areas to create an interactive interface for users to manage their orders.
+
+// const CreateOrder = () => {
+//     return (
+//         <div className="flex h-full felx-col bg-background">
+//             <POSHeader />
+//             <div className="flex flex-1 overflow-hidden">
+//                 <ProductSection />
+//                 <CartesianGrid />
+//                 {/* <CustomerPaymentSection /> */}
+//             </div>
+
+//         </div>
+//     )
+// }
