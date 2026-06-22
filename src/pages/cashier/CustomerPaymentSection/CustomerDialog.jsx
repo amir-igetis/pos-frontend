@@ -81,7 +81,7 @@ export const CustomerDialog = ({ showCustomerDialog, setShowCustomerDialog }) =>
                                         <Button
                                             variant='outline'
                                             className={'w-full'}
-                                            onClick={handleSelectCustomer}>
+                                            onClick={() => handleSelectCustomer(customer)}>
                                             Select
                                         </Button>
                                     </TableCell>
@@ -94,4 +94,4 @@ export const CustomerDialog = ({ showCustomerDialog, setShowCustomerDialog }) =>
             </DialogContent>
         </Dialog>
     )
-}
+};

@@ -1,12 +1,17 @@
 import { Button } from '@/components/ui/button';
-import { selectCartItems } from '@/ReduxToolkit/feature/Cart/cartSlice';
-import { ShoppingCart } from 'lucide-react';
+import { clearCart, selectCartItems, selectHeldOrders } from '@/ReduxToolkit/feature/Cart/cartSlice';
+import { ShoppingCart, Trash2 } from 'lucide-react';
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const CartSection = () => {
     const [showHeldOrdersDialog, setShowHeldOrdersDialog] = React.useState(false);
     const cartItems = useSelector(selectCartItems);
+    // const heldOrders = useSelector(selectHeldOrders);
+    const dispatch = useDispatch();
+    const handleClearOrder = () => {
+        dispatch(clearCart());
+    }
 
 
     return (
@@ -18,12 +23,22 @@ export const CartSection = () => {
                         Cart ({cartItems.length}) item
                     </h2>
                     <div className='flex space-x-2'>
-                        <Button onClick={() => setShowHeldOrdersDialog(true)} variant="outline" size="sm">
-
+                        <Button onClick={() => setShowHeldOrdersDialog(true)}
+                            variant="outline" size="sm">
+                            Held
+                        </Button>
+                        <Button
+                            onClick={handleClearOrder}
+                            variant="outline" size="sm">
+                            <Trash2 className='w-4 h-4 mr-1'>
+                                Clear</Trash2>
                         </Button>
                     </div>
                 </div>
 
+            </div>
+            <div className='p-4 space-y-3'>
+                Finish the cart section UI here, such as listing cart items, showing total price, etc. For now, we will just show a placeholder text.
             </div>
 
         </div>

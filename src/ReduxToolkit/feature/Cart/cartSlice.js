@@ -110,15 +110,16 @@ const cartSlice = createSlice({
     },
 });
 
-export const selectSelectedCustomer = (state) => state.cart.selectedCustomer;
-export const selectCartItemsCount = (state) => state.cart.items.length;
-export const selectNote = (state) => state.cart.note;
-export const selectCartDiscount = (state) => state.cart.discount;
 export const selectCartItems = (state) => state.cart.items;
+
+export const selectCartItemsCount = (state) => state.cart.items.length;
+export const selectSelectedCustomer = (state) => state.cart.selectedCustomer;
+export const selectNote = (state) => state.cart.note;
+export const selectDiscount = (state) => state.cart.discount;
 export const selectPaymentMethod = (state) => state.cart.paymentMethod;
 export const selectHeldOrders = (state) => state.cart.heldOrders;
 export const selectCurrentOrder = (state) => state.cart.currentOrder;
-
+// export const selectCartDiscount = (state) => state.cart.discount;
 
 export const selectSubTotal = (state) => {
     return state.cart.items.reduce((total, item) =>

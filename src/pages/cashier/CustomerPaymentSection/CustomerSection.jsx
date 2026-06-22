@@ -16,32 +16,35 @@ import { selectSelectedCustomer } from '@/ReduxToolkit/feature/Cart/cartSlice';
 // selectedCustomer = null;
 export const CustomerSection = () => {
     const [showCustomerDialog, setShowCustomerDialog] = useState(false);
-    const selectedCustomer = useSelector(selectSelectedCustomer);
-    
-    
+    const customer = useSelector(selectSelectedCustomer);
+
+
     return (
         <div className='p-4 border-b'>
             <h2 className='text-lg font-semibold mb-3 flex items-center'>
                 <User className='w-5 h-5 mr-2'> Customer</User>
             </h2>
-            {selectedCustomer ? (
+            {customer ? (
                 <Card
                     className={'border-green-400 bg-green-50 dark:bg-green-950'}>
                     <CardContent
                         className={'p-3 flex items-center justify-between gap-5'}>
                         <div>
                             <h3 className='font-medium text-green-800 dark:text-green-300'>
-                                {selectedCustomer.fullName}
+                                {customer.fullName}
                             </h3>
                             <p className='text-sm text-green-600 dark:text-green-300'>
-                                {selectedCustomer.phone}
+                                {customer.phone}
                             </p>
                         </div>
                         <Button
-                            variant='outline' className={'mt-2 w-full'}>
+                            variant='outline'
+                            className={'mt-2 w-full'}
+                            onClick={() => setShowCustomerDialog(true)}
+                        >
+                            <Edit />
 
                         </Button>
-                        <Edit />
                     </CardContent>
                 </Card>
             ) : (
@@ -59,5 +62,5 @@ export const CustomerSection = () => {
                 setShowCustomerDialog={setShowCustomerDialog}
             />
         </div>
-    )
-}
+    );
+};
