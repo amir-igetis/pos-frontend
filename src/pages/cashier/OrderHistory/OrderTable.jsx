@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { getOrderByCashier } from '@/ReduxToolkit/feature/Order/orderThunk'
 import { EyeIcon, Printer } from 'lucide-react'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const orders = [
     {
@@ -30,6 +32,16 @@ const orders = [
 ]
 
 const OrderTable = ({ handleViewOrderDetails }) => {
+    const { orders } = useSelector(state => state.order);
+    const dispatch = useDispatch();
+    const { userProfile } = useSelector(state => state.user);
+
+    useEffect(() => {
+        if (userProfile?.id) {
+            dispatch(getOrderByCashier(userProfile.id))
+        }
+    }, [userProfile])
+
     return (
         <div>
             <h2 className='text-xl font-bold mb-4'>

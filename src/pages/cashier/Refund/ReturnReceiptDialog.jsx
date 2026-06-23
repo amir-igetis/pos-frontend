@@ -3,6 +3,7 @@ import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button';
 import { PrinterIcon } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const ReturnReceiptDialog = ({
     showReturnReciptDialog,
@@ -11,6 +12,26 @@ const ReturnReceiptDialog = ({
 }) => {
 
     if (!selectedOrder || !selectedOrder.items) return null;
+
+    const handlePrint = () => {
+        console.log("print recipt");
+        setShowReturnReciptDialog(false);
+
+    }
+
+    // const {branch} = useSelector(state=>state.branch);
+    // const {user} = useSelector(state => state);
+
+    // const handleCreateRefund = () => {
+    //     // setShowReturnReciptDialog(false);
+    //     const orderDTO = {
+    //         orderId: selectedOrder.id,
+    //         branchId: branch?.id,
+    //         cashierId: user.userProfile?.id,
+    //         reason:
+    //     }
+
+
 
     return (
         <Dialog
@@ -91,7 +112,7 @@ const ReturnReceiptDialog = ({
                         </TableBody>
                     </Table>
                     <DialogFooter>
-                        <Button>
+                        <Button onClick={handlePrint}>
                             <PrinterIcon className='h-4 w-4'>
 
                             </PrinterIcon>

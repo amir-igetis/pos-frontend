@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const shiftData = {
   topSellingProducts: [
@@ -19,6 +20,10 @@ const shiftData = {
 }
 
 const TopSellingItmes = () => {
+
+  const shiftData = useSelector(state => state.shiftReport?.currentShift);
+
+
   return (
     <Card>
       <CardContent>

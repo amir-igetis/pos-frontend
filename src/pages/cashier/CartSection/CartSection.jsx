@@ -3,13 +3,16 @@ import { clearCart, selectCartItems, selectHeldOrders } from '@/ReduxToolkit/fea
 import { ShoppingCart, Trash2 } from 'lucide-react';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { CartItem } from './CartItem';
+import { CartSummary } from './CartSummary';
+import { HeldOrderDialog } from './HeldOrderDialog';
 
 export const CartSection = () => {
     const [showHeldOrdersDialog, setShowHeldOrdersDialog] = React.useState(false);
     const cartItems = useSelector(selectCartItems);
     // const heldOrders = useSelector(selectHeldOrders);
     const dispatch = useDispatch();
-    const handleClearOrder = () => {
+    const handleClearCart = () => {
         dispatch(clearCart());
     }
 
@@ -28,7 +31,7 @@ export const CartSection = () => {
                             Held
                         </Button>
                         <Button
-                            onClick={handleClearOrder}
+                            onClick={handleClearCart}
                             variant="outline" size="sm">
                             <Trash2 className='w-4 h-4 mr-1'>
                                 Clear</Trash2>
@@ -38,9 +41,14 @@ export const CartSection = () => {
 
             </div>
             <div className='p-4 space-y-3'>
-                Finish the cart section UI here, such as listing cart items, showing total price, etc. For now, we will just show a placeholder text.
+                {cartItems.map((item, index) => {
+                    <CartItem item={item} key={index}></CartItem>
+                })}
+                {cartItems.length > 0 && <CartSummary />}
             </div>
+            <HeldOrderDialog showHeldOrdersDialog={showHeldOrdersDialog}
+                setShowHeldOrdersDialog={setShowHeldOrdersDialog}></HeldOrderDialog>
 
         </div>
-    )
-}
+    );
+};

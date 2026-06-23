@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ShiftReportHeader from './ShiftReportHeader';
 import ShiftInformation from './ShiftInformation';
 import SalesSummaryCard from './SalesSummaryCard';
@@ -6,8 +6,18 @@ import PaymentSummaryCard from './PaymentSummaryCard';
 import TopSellingItmes from './TopSellingItmes';
 import RecentOrdersTable from './RecentOrdersTable';
 import RefundsTable from './RefundsTable';
+import { useDispatch } from 'react-redux';
+import { getCurrentShiftProgress } from '@/ReduxToolkit/feature/ShiftReport/shiftReportThunk';
+
 
 export const ShiftSummaryPage = () => {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getCurrentShiftProgress());
+    }, []);
+
     return (
         <div className='h-full flex flex-col'>
             <ShiftReportHeader />

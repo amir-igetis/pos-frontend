@@ -43,10 +43,11 @@
 
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBranchById } from '@/ReduxToolkit/feature/Branch/branchThunk';
+import { logout } from '@/ReduxToolkit/feature/Auth/authSlice';
 
 const branch = { name: "Kolkata East Branch", address: "New Town 123" }
 
@@ -55,12 +56,20 @@ const Sidebar = ({ navItems, onClose }) => {
     const { userProfile } = useSelector(state => state.user);
     const { branch } = useSelector(state => state.branch);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         if (userProfile?.branchId) {
             dispatch(getBranchById({ id: userProfile.branchId }))
         }
     }, [userProfile])
+
+    const handleLogout = () => {
+        dispatch(logout()
+        )
+        navigate('/');
+    }
 
     // useEffect(() => {
     //     if (userProfile?.branchId) {
@@ -113,6 +122,13 @@ const Sidebar = ({ navItems, onClose }) => {
 
                 </div>
             )}
+            <div className="pt-10">
+                <Button
+                    className="py-5 w-full"
+                    onClick={handleLogout}>
+                    Log out
+                </Button>
+            </div>
         </div>
     );
 }

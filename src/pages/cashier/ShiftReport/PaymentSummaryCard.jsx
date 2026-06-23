@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { CreditCard } from 'lucide-react';
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const shiftData = {
     pamentSummeries: [
@@ -28,6 +29,10 @@ const shiftData = {
 }
 
 const PaymentSummaryCard = () => {
+    const shiftData = useSelector(state => state.shiftReport?.currentShift);
+
+
+
     return (
         <Card>
             <CardContent className={"p-6"}>
@@ -36,7 +41,7 @@ const PaymentSummaryCard = () => {
                 </h2>
                 <div className='space-y-4'>
                     {
-                        shiftData.pamentSummeries.map((payment) =>
+                        shiftData?.pamentSummeries?.map((payment) =>
                             <div className='flex items-center' key={payment.type}>
                                 <div className='w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4'>
                                     <CreditCard />

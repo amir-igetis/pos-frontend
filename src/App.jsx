@@ -10,7 +10,7 @@ import Login from './pages/Auth/Login'
 import StoreRoutes from './routes/StoreRoutes'
 import { getUserProfile } from './ReduxToolkit/feature/User/userThunk'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // function App() {
 //   const [count, setCount] = useState(0)
@@ -35,6 +35,10 @@ import { useDispatch } from 'react-redux'
 
 function App() {
   const dispatch = useDispatch();
+
+  const { userProfile } = useSelector(state => state.user);
+
+
   useEffect(() => {
     // 1. Grab the token
     const token = localStorage.getItem('jwt');
@@ -43,19 +47,43 @@ function App() {
     if (token && token !== "null" && token !== "undefined") {
       dispatch(getUserProfile(token));
     }
-  }, [dispatch]);
-  return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/cashier/*" element={<CashierRoutes />} />
+  }, []);
 
-      {/* FIX: Added /* to the store path */}
-      <Route path="/store/*" element={<StoreRoutes />} />
+  let content;
 
-      {/* <Route path='/branch/*' element={<BranchRoutes />} />
-      <Route path='/super-admin/*' element={<AdminRoutes />} /> */}
+  if (userProfile && userProfile.role) {
+    if (userProfile?.role === 'ROLE_BRANCH_CASHIER') {
+      content =
+        <Routes>
+          <Route path="/" element={<Navigate to="/cashier" replace />} />
+          <Route path="/cashier/*" element={<CashierRoutes />} />
+        </Routes>
+    }
+  } else {
+    content = <Routes>
+      <Route path="/" element={<Login />} />
+
     </Routes>
+  }
+
+  return (
+
+
+    <>
+      {content}
+    </>
+
+    // <Routes>
+    //   <Route path="/" element={<Navigate to="/login" replace />} />
+    //   <Route path="/login" element={<Login />} />
+    //   <Route path="/cashier/*" element={<CashierRoutes />} />
+
+    //   {/* FIX: Added /* to the store path */}
+    //   <Route path="/store/*" element={<StoreRoutes />} />
+
+    //   {/* <Route path='/branch/*' element={<BranchRoutes />} />
+    //   <Route path='/super-admin/*' element={<AdminRoutes />} /> */}
+    // </Routes>
   );
 }
 

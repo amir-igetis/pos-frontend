@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const shiftData = {
   recentOrders: [
@@ -21,6 +22,10 @@ const shiftData = {
 }
 
 const RecentOrdersTable = () => {
+
+  const shiftData = useSelector(state => state.shiftReport?.currentShift);
+
+
   return (
     <Card>
       <CardContent>
@@ -38,7 +43,7 @@ const RecentOrdersTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {shiftData.recentOrders.map((order) => (
+            {shiftData?.recentOrders?.map((order) => (
               <TableRow key={order.id}>
                 <TableCell>{order.id}</TableCell>
                 <TableCell>{order.createdAt}</TableCell>

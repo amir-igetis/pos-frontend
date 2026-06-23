@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const shiftData = {
   cashier: {
@@ -16,6 +17,10 @@ const shiftData = {
 }
 
 const SalesSummaryCard = () => {
+
+  const shiftData = useSelector(state => state.shiftReport?.currentShift);
+
+
   return (
     <Card>
       <CardContent>
@@ -25,22 +30,22 @@ const SalesSummaryCard = () => {
         <div className='space-y-2'>
           <div className='flex justify-between'>
             <span className='text-muted-foregroud'>Total order: </span>
-            <span className='font-medium'>{shiftData.totalOrders}</span>
+            <span className='font-medium'>{shiftData?.totalOrders}</span>
           </div>
 
           <div className='flex justify-between'>
             <span className='text-muted-foregroud'>Shift sales: </span>
-            <span className='font-medium text-green-500'>${shiftData.totalSales}</span>
+            <span className='font-medium text-green-500'>${shiftData?.totalSales}</span>
           </div>
 
           <div className='flex justify-between'>
             <span className='text-muted-foregroud'>Total Refund: </span>
-            <span className='font-medium text-red-500'>-${shiftData.totalRefunds}</span>
+            <span className='font-medium text-red-500'>-${shiftData?.totalRefunds}</span>
           </div>
 
           <div className='flex justify-between border-t'>
             <span className='text-muted-foregroud'>Net Sales: </span>
-            <span className='font-medium'>${shiftData.netSales}</span>
+            <span className='font-medium'>${shiftData?.totalSales - shiftData?.totalRefund}</span>
           </div>
 
 

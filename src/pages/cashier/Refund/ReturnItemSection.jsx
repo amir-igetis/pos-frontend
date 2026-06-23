@@ -9,7 +9,9 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { createRefund } from '@/ReduxToolkit/feature/Refund/refundThunk'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const returnReasons = [
   "Wrong product",
@@ -25,9 +27,32 @@ const ReturnItemSection = ({ selectedOrder, setShowReturnReciptDialog }) => {
   const [returnReason, setReturnReason] = useState("")
   const [otherReason, setOtherReason] = useState("")
   const [refundMethod, setRefundMethod] = useState("UPI");
-  const processRefund = (() => {
+
+  const { branch } = useSelector(state => state.branch);
+  const { user } = useSelector(state => state);
+  const dispatch = useDispatch();
+
+  const processRefund = () => {
     setShowReturnReciptDialog(true)
-  })
+    const refundDTO = {
+      orderId: selectedOrder.id,
+      branchId: branch?.id,
+      cashierId: user.userProfile?.id,
+      reason: returnReason,
+      refundMethod: refundMethod
+    }
+    console.log("proceed refund", refundDTO);
+    dispatch(createRefund(refundDTO))
+  }
+
+  // const handleCreateRefund = () => {
+  //   // setShowReturnReciptDialog(false);
+
+  // }
+
+
+
+
 
   return (
     <div className='p-4 w-1/2'>
@@ -61,7 +86,7 @@ const ReturnItemSection = ({ selectedOrder, setShowReturnReciptDialog }) => {
                 <Textarea
                   placeholder="Please specify the return reason"
                   value={otherReason}
-                  onChange={(e) => setOtherReason(e.target.value)}
+                  onValueChange={(e) => setOtherReason(e)}
                 />
               </div>
             )}

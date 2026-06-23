@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 
 const shiftData = {
     cashier: {
@@ -12,6 +13,9 @@ const shiftData = {
 }
 
 const ShiftInformation = () => {
+
+    const dispatch = useDispatch();
+    const shiftData = useSelector(state => state.shiftReport.currentShift);
 
 
     return (
@@ -28,18 +32,18 @@ const ShiftInformation = () => {
 
                     <div className='flex justify-between'>
                         <span className='text-muted-foregroud'>Shift Start: </span>
-                        <span className='font-medium'>{shiftData.shiftStart}</span>
+                        <span className='font-medium'>{shiftData?.shiftStart}</span>
                     </div>
 
                     <div className='flex justify-between'>
                         <span className='text-muted-foregroud'>Shift End: </span>
-                        <span className='font-medium'>{shiftData.shiftEnd ?
-                            shiftData.shiftEnd : "Ongoing"}</span>
+                        <span className='font-medium'>{shiftData?.shiftEnd ?
+                            shiftData?.shiftEnd : "Ongoing"}</span>
                     </div>
 
                     <div className='flex justify-between'>
                         <span className='text-muted-foregroud'>Duration: </span>
-                        <span className='font-medium'>{shiftData.duration}</span>
+                        <span className='font-medium'>{shiftData?.duration}</span>
                     </div>
 
 

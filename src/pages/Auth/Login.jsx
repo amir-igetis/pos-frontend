@@ -67,6 +67,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { login } from '@/ReduxToolkit/feature/Auth/authThunk'
+import { startShift } from '@/ReduxToolkit/feature/ShiftReport/shiftReportThunk'
 import { getUserProfile } from '@/ReduxToolkit/feature/User/userThunk'
 import { ShoppingCartIcon } from 'lucide-react'
 import React, { useState } from 'react'
@@ -78,11 +79,12 @@ const Login = () => {
     const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { branch } = useState(state => state.branch);
 
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-    })
+    });
 
     const [showForgotPassword, setShowForgotPassword] = useState(false)
 
@@ -111,6 +113,7 @@ const Login = () => {
 
                 if (userRole === "ROLE_BRANCH_CASHIER") {
                     navigate("/cashier");
+                    dispatch(startShift(userProfile.branchId));
                 } else if (userRole === "ROLE_STORE_MANAGER" || userRole === "ROLE_STORE_ADMIN") {
                     navigate("/store");
                 } else if (userRole === "ROLE_BRANCH_MANAGER") {
